@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Button, Input, message } from 'antd';
 import { UploadOutlined, PauseCircleOutlined, PlayCircleOutlined, CloudUploadOutlined } from '@ant-design/icons';
 import { getItem, setItem } from './util/storage';
-import { chunkPresence, fileChunk } from './apis/apiModules/uploadApis';
+import { chunkPresence, fileChunk, mergeChunks } from './apis/apiModules/uploadApis';
 
 import styles from './app.less';
 
@@ -101,7 +101,7 @@ const Upload: React.FC<UploadProps> = (props) => {
         ...uploadArguments,
       };
 
-      chunkPresence({ params: obj })
+      chunkPresence(obj)
         .then((res: any) => {
           console.log('verifyUpload -> res', res);
           resolve(res);
@@ -120,6 +120,10 @@ const Upload: React.FC<UploadProps> = (props) => {
         success();
       }
     }
+  };
+  const addChunkStorage = (name: string, index: number) => {
+    const previous = getItem(name) || [];
+    setItem(name, [...previous, index]);
   };
   // 上传文件
   const sendRequest = (forms: any, chunkData: any) => {
@@ -144,7 +148,7 @@ const Upload: React.FC<UploadProps> = (props) => {
               chunkData[index].uploaded = true;
               chunkData[index].status = 'success';
               // 存储已上传的切片下标
-              setItem(chunkData[index].fileHash, index);
+              addChunkStorage(chunkData[index].fileHash, index);
               finished++;
               handler();
             })
@@ -189,6 +193,7 @@ const Upload: React.FC<UploadProps> = (props) => {
       fileName: data.name,
       fileChunkNum: data.chunkList.length,
     };
+    mergeChunks(mergeObj);
   };
   // 将切片传输给服务端
   const uploadChunks = async (data: any) => {
@@ -265,6 +270,7 @@ const Upload: React.FC<UploadProps> = (props) => {
         filesArr[i].status = FileStatus.secondPass;
         filesArr[i].uploadProgress = 100;
         isAllStatus();
+        message.success('已秒传');
       } else {
         console.log('开始上传文件----》', filesArr[i].name);
         filesArr[i].status = FileStatus.uploading;

@@ -31,6 +31,7 @@ service.interceptors.request.use(
       };
     }
     if (config.method === 'get') {
+      console.log('axios->get', config);
       config.paramsSerializer = function (params: any) {
         return qs.stringify(params, { arrayFormat: 'repeat' });
       };
