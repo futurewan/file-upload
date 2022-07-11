@@ -8,7 +8,7 @@ export const chunkPresence = (params: LooseObject) =>
     params,
     url: '/fileChunk/presence',
   });
-export const fileChunk = (formData: any) =>
+export const fileChunk = ({ formData, onUploadProgress, cancelToken }: LooseObject) =>
   // postForm('/fileChunk', formData);
   request({
     data: formData,
@@ -17,6 +17,9 @@ export const fileChunk = (formData: any) =>
     headers: {
       'Content-Type': 'multipart/form-data',
     },
+    timeout: 0,
+    onUploadProgress,
+    cancelToken,
   });
 
 export const mergeChunks = (data: LooseObject) =>

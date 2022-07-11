@@ -43,9 +43,9 @@ module.exports = {
       namedComponents: ['function-declaration', 'function-expression', 'arrow-function'],
       unnamedComponents: 'function-expression',
     }],
-    'no-plusplus': ["error", { "allowForLoopAfterthoughts": true }],
     'no-continue':"off",
     'no-plusplus':'off'
+    // 'radix':'off'
   },
   "settings": {
   },

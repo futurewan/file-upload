@@ -22,11 +22,40 @@ body {
 }
 .upload {
   position: relative;
-  padding-top: 200px;
+  padding: 20px 50px;
   .file-input {
     position: absolute;
     left: 0;
     top: 0;
     opacity: 0;
+  }
+  .file-list {
+    padding: 20px;
+    color: #333;
+    font-weight: 500;
+    .item-file {
+      display: flex;
+      align-items: center;
+      padding: 8px 10px;
+      border-bottom: 1px solid #999;
+      .name {
+        flex: 1;
+      }
+      .size {
+        flex: 1;
+      }
+      .progress {
+        display: flex;
+        flex: 0 0 50%;
+        .span {
+          text-align: right;
+          padding-right: 10px;
+          flex-shrink: 0;
+        }
+      }
+      .status {
+        margin-left: 10px;
+      }
+    }
   }
 }

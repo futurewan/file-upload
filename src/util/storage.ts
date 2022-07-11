@@ -12,6 +12,11 @@ export const setItem = (name: string, value: unknown): void => {
   localStorage.setItem(name, JSON.stringify(value));
 };
 
+export const removeItem = (name: string): void => {
+  if (!name) return;
+  localStorage.removeItem(name);
+};
+
 export const setSessionItem = (name: string, value: unknown): any => {
   if (!name) return;
   sessionStorage.setItem(name, JSON.stringify(value));
